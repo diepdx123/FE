@@ -307,7 +307,7 @@ const ShopPage = () => {
           </div>
         </section>
         <section className="bg-[#FFF7ED] py-16 mt-16">
-          <div className=" container max-w-screen-xl m-auto grid grid-cols-4">
+          <div className="max-w-screen-xl m-auto grid grid-cols-4">
             <div className="flex gap-5">
               <img src="./assets/images/quality.png" alt="" />
               <div>
