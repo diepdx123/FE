@@ -1,96 +1,91 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Huyen, Tinh, Xa } from "../../../interface/locations/interface";
 
 const PaymentPage = () => {
-  interface Tinh {
-    name: string;
-    id: string;
-  }
+  // const [provinces, setProvince] = useState<Tinh[]>([]);
+  // const [selectedProvinceId, setSelectedProvinceId] = useState<string | null>(
+  //   null
+  // );
+  // const [districts, setDistricts] = useState<Huyen[]>([]);
+  // const [selectedTownId, setSelectedTownId] = useState<string | null>(null);
+  // const [xa, setXa] = useState<Xa[]>([]);
 
-  interface Huyen {
-    name: string;
-    id: string;
-  }
-  interface Xa {
-    name: string;
-    id: string;
-  }
+  // useEffect(() => {
+  //   fetch(`https://esgoo.net/api-tinhthanh/1/0.htm`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       if (data.error === 0) {
+  //         const res = data.data.map((item: Tinh) => ({
+  //           id: item.id,
+  //           name: item.name,
+  //         }));
+  //         setProvince(res);
+  //       } else {
+  //         console.error("Error fetching data:", data.error_text);
+  //       }
+  //     })
+  //     .catch((error) => console.error("Error:", error));
+  // }, []);
 
-  const [provinces, setProvince] = useState<Tinh[]>([]);
-  const [selectedProvinceId, setSelectedProvinceId] = useState<string | null>(
-    null
-  );
-  const [districts, setDistricts] = useState<Huyen[]>([]);
-  const [selectedTownId, setSelectedTownId] = useState<string | null>(null);
-  const [town, setTown] = useState<Xa[]>([]);
+  // useEffect(() => {
+  //   if (selectedProvinceId) {
+  //     fetch(`https://esgoo.net/api-tinhthanh/2/${selectedProvinceId}.htm`)
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         if (data.error === 0) {
+  //           const res = data.data.map((item: Huyen) => ({
+  //             id: item.id,
+  //             name: item.name,
+  //           }));
+  //           setDistricts(res);
+  //         } else {
+  //           console.error("Error fetching data:", data.error_text);
+  //         }
+  //       })
+  //       .catch((error) => console.error("Error:", error));
+  //   }
+  // }, [selectedProvinceId]);
 
-  useEffect(() => {
-    fetch(`https://esgoo.net/api-tinhthanh/1/0.htm`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error === 0) {
-          const res = data.data.map((item: Tinh) => ({
-            id: item.id,
-            name: item.name,
-          }));
-          setProvince(res);
-        } else {
-          console.error("Error fetching data:", data.error_text);
-        }
-      })
-      .catch((error) => console.error("Error:", error));
-  }, []);
+  // const handleIdProvince = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   const provinveId = e.target.value;
+  //   console.log("id ting", provinveId);
+  //   setSelectedProvinceId(provinveId);
+  // };
 
-  useEffect(() => {
-    if (selectedProvinceId) {
-      fetch(`https://esgoo.net/api-tinhthanh/2/${selectedProvinceId}.htm`)
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.error === 0) {
-            const res = data.data.map((item: Huyen) => ({
-              id: item.id,
-              name: item.name,
-            }));
-            setDistricts(res);
-          } else {
-            console.error("Error fetching data:", data.error_text);
-          }
-        })
-        .catch((error) => console.error("Error:", error));
-    }
-  }, [selectedProvinceId]);
+  // useEffect(() => {
+  //   if (selectedTownId) {
+  //     fetch(`https://esgoo.net/api-tinhthanh/3/${selectedTownId}.htm`)
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         if (data.error === 0) {
+  //           console.log(data.data, 1111111);
+  //           const res = data.data.map((item: Xa) => ({
+  //             id: item.id,
+  //             name: item.name,
+  //           }));
+  //           setXa(res);
+  //         } else {
+  //           console.error("Error fetching data:", data.error_text);
+  //         }
+  //       });
+  //   }
+  // }, [selectedTownId]);
 
-  const handleIdProvince = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const provinveId = e.target.value;
-    console.log("id ting", provinveId);
-    setSelectedProvinceId(provinveId);
+  // const handleIdTown = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   const townId = e.target.value;
+  //   console.log("id huyen:", townId);
+  //   setSelectedTownId(townId);
+  // };
+
+  const fetchTinhs = async () => {
+    const response = await fetch(`https://esgoo.net/api-tinhthanh/1/0.htm`);
+    const data = response.json();
+    return data.data.map((item) => ({
+      id: item.id,
+      name: item.name,
+    }));
   };
-
-  useEffect(() => {
-    if (selectedTownId) {
-      fetch(`https://esgoo.net/api-tinhthanh/3/${selectedTownId}.htm`)
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.error === 0) {
-            console.log(data.data, 1111111);
-            const res = data.data.map((item: Xa) => ({
-              id: item.id,
-              name: item.name,
-            }));
-            setTown(res);
-          } else {
-            console.error("Error fetching data:", data.error_text);
-          }
-        });
-    }
-  }, [selectedTownId]);
-
-  const handleIdTown = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const townId = e.target.value;
-    console.log("id huyen:", townId);
-    setSelectedTownId(townId);
-  };
-
   return (
     <div>
       <section className="max-w-screen-xl mx-auto">
@@ -125,18 +120,18 @@ const PaymentPage = () => {
               </div>
               <div className="mt-8">
                 <label htmlFor="district" className="font-medium">
-                  tinh
+                  Tỉnh Thành
                 </label>
                 <label htmlFor="province" className="font-medium"></label>
                 <div className="p-2 border border-solid border-neutral-300 mt-2">
                   <select
                     name="province"
                     id=""
-                    className="block w-full"
+                    className="block w-full bg-white text-black focus:outline-none focus:border-transparent"
                     onChange={handleIdProvince}
                   >
                     <option value="" className="hidden">
-                      Chon Tinh Cua Ban
+                      Chọn tỉnh thành của bạn
                     </option>
                     {provinces.map((province) => (
                       <option key={province.id} value={province.id}>
@@ -149,17 +144,17 @@ const PaymentPage = () => {
 
               <div className="mt-8">
                 <label htmlFor="district" className="font-medium">
-                  huyen
+                  Quận/Huyện
                 </label>
                 <div className="p-2 border border-solid border-neutral-300 mt-2">
                   <select
                     name="district"
                     id="district"
-                    className="block w-full "
+                    className="block w-full bg-white text-black focus:outline-none focus:border-transparent"
                     onChange={handleIdTown}
                   >
                     <option value="" className="hidden">
-                      Chon huyen cua ban
+                      Chọn quận/huyện của bạn
                     </option>
 
                     {districts.map((district) => (
@@ -172,18 +167,25 @@ const PaymentPage = () => {
               </div>
 
               <div className="mt-8">
-                <label htmlFor="town" className="font-medium">
-                  xa
+                <label htmlFor="xa" className="font-medium">
+                  Xã/Phường
                 </label>
                 <div className="p-2 border border-solid border-neutral-300 mt-2">
-                  <select name="town" id="town" className="block w-full">
-                    <option value="" className="hidden">
-                      Chon xa cua ban
+                  <select
+                    name="xa"
+                    id="xa"
+                    className="block w-full bg-white text-black focus:outline-none focus:border-transparent"
+                  >
+                    <option
+                      value=""
+                      className="block w-full bg-white text-black "
+                    >
+                      chọn phường/xã của bạn
                     </option>
 
-                    {town.map((town) => (
-                      <option key={town.id} value={town.id}>
-                        {town.name}
+                    {xa.map((xa) => (
+                      <option key={xa.id} value={xa.id}>
+                        {xa.name}
                       </option>
                     ))}
                   </select>
@@ -192,7 +194,7 @@ const PaymentPage = () => {
 
               <div className="mt-8">
                 <label htmlFor="street-address" className="font-medium">
-                  Street address
+                  Tên đường
                 </label>
                 <input
                   type="text"
