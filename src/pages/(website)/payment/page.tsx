@@ -1,91 +1,42 @@
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Huyen, Tinh, Xa } from "../../../interface/locations/interface";
+import { fetchHuyens, fetchTinhs, fetchXas } from "../../../api/localtons/api";
 
 const PaymentPage = () => {
-  // const [provinces, setProvince] = useState<Tinh[]>([]);
-  // const [selectedProvinceId, setSelectedProvinceId] = useState<string | null>(
-  //   null
-  // );
-  // const [districts, setDistricts] = useState<Huyen[]>([]);
-  // const [selectedTownId, setSelectedTownId] = useState<string | null>(null);
-  // const [xa, setXa] = useState<Xa[]>([]);
+  const [idTinhDuocChon, setIdTinhDuocChon] = useState<string | null>(null);
+  const [idHuyenDuocCHon, setIdHuyenDuocChon] = useState<string | null>(null);
 
-  // useEffect(() => {
-  //   fetch(`https://esgoo.net/api-tinhthanh/1/0.htm`)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       if (data.error === 0) {
-  //         const res = data.data.map((item: Tinh) => ({
-  //           id: item.id,
-  //           name: item.name,
-  //         }));
-  //         setProvince(res);
-  //       } else {
-  //         console.error("Error fetching data:", data.error_text);
-  //       }
-  //     })
-  //     .catch((error) => console.error("Error:", error));
-  // }, []);
+  useEffect(() => {
+    setIdHuyenDuocChon(null);
+  }, [idTinhDuocChon]);
 
-  // useEffect(() => {
-  //   if (selectedProvinceId) {
-  //     fetch(`https://esgoo.net/api-tinhthanh/2/${selectedProvinceId}.htm`)
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         if (data.error === 0) {
-  //           const res = data.data.map((item: Huyen) => ({
-  //             id: item.id,
-  //             name: item.name,
-  //           }));
-  //           setDistricts(res);
-  //         } else {
-  //           console.error("Error fetching data:", data.error_text);
-  //         }
-  //       })
-  //       .catch((error) => console.error("Error:", error));
-  //   }
-  // }, [selectedProvinceId]);
+  const { data: dataTinhs } = useQuery<Tinh[]>({
+    queryKey: ["tinhs"],
+    queryFn: fetchTinhs,
+  });
 
-  // const handleIdProvince = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   const provinveId = e.target.value;
-  //   console.log("id ting", provinveId);
-  //   setSelectedProvinceId(provinveId);
-  // };
+  const { data: dataHuyens } = useQuery<Huyen[]>({
+    queryKey: ["huyens", idTinhDuocChon],
+    queryFn: () => {
+      if (idTinhDuocChon) {
+        return fetchHuyens(idTinhDuocChon);
+      }
+      return Promise.resolve([]);
+    },
+  });
 
-  // useEffect(() => {
-  //   if (selectedTownId) {
-  //     fetch(`https://esgoo.net/api-tinhthanh/3/${selectedTownId}.htm`)
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         if (data.error === 0) {
-  //           console.log(data.data, 1111111);
-  //           const res = data.data.map((item: Xa) => ({
-  //             id: item.id,
-  //             name: item.name,
-  //           }));
-  //           setXa(res);
-  //         } else {
-  //           console.error("Error fetching data:", data.error_text);
-  //         }
-  //       });
-  //   }
-  // }, [selectedTownId]);
+  const { data: dataXas } = useQuery<Xa[]>({
+    queryKey: ["xas", idHuyenDuocCHon, idTinhDuocChon],
+    queryFn: () => {
+      if (idHuyenDuocCHon) {
+        return fetchXas(idHuyenDuocCHon);
+      }
+      return Promise.resolve([]);
+    },
+  });
 
-  // const handleIdTown = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   const townId = e.target.value;
-  //   console.log("id huyen:", townId);
-  //   setSelectedTownId(townId);
-  // };
-
-  const fetchTinhs = async () => {
-    const response = await fetch(`https://esgoo.net/api-tinhthanh/1/0.htm`);
-    const data = response.json();
-    return data.data.map((item) => ({
-      id: item.id,
-      name: item.name,
-    }));
-  };
   return (
     <div>
       <section className="max-w-screen-xl mx-auto">
@@ -128,12 +79,12 @@ const PaymentPage = () => {
                     name="province"
                     id=""
                     className="block w-full bg-white text-black focus:outline-none focus:border-transparent"
-                    onChange={handleIdProvince}
+                    onChange={(e) => setIdTinhDuocChon(e.target.value)}
                   >
                     <option value="" className="hidden">
                       Chọn tỉnh thành của bạn
                     </option>
-                    {provinces.map((province) => (
+                    {dataTinhs?.map((province) => (
                       <option key={province.id} value={province.id}>
                         {province.name}
                       </option>
@@ -151,13 +102,13 @@ const PaymentPage = () => {
                     name="district"
                     id="district"
                     className="block w-full bg-white text-black focus:outline-none focus:border-transparent"
-                    onChange={handleIdTown}
+                    onChange={(e) => setIdHuyenDuocChon(e.target.value)}
                   >
                     <option value="" className="hidden">
                       Chọn quận/huyện của bạn
                     </option>
 
-                    {districts.map((district) => (
+                    {dataHuyens?.map((district) => (
                       <option key={district.id} value={district.id}>
                         {district.name}
                       </option>
@@ -183,7 +134,7 @@ const PaymentPage = () => {
                       chọn phường/xã của bạn
                     </option>
 
-                    {xa.map((xa) => (
+                    {dataXas?.map((xa) => (
                       <option key={xa.id} value={xa.id}>
                         {xa.name}
                       </option>
