@@ -13,22 +13,22 @@ const ShopPage = () => {
             <h2 className="font-semibold text-xl mb-4">Categories</h2>
             <ul>
               <li className="text-yellow-600 font-medium mb-2">
-                <Link to="">Cafe Chair</Link>
+                <Link to="#">Cafe Chair</Link>
               </li>
               <li className="font-medium text-[#737373] mb-2 hover:text-yellow-600">
-                <Link to="">Sofa</Link>
+                <Link to="#">Sofa</Link>
               </li>
               <li className="font-medium text-[#737373] mb-2 hover:text-yellow-600">
-                <Link to="">Lamp</Link>
+                <Link to="#">Lamp</Link>
               </li>
               <li className="font-medium text-[#737373] mb-2 hover:text-yellow-600">
-                <Link to="">Carpet</Link>
+                <Link to="#">Carpet</Link>
               </li>
               <li className="font-medium text-[#737373] mb-2 hover:text-yellow-600">
-                <Link to="">Cabinet</Link>
+                <Link to="#">Cabinet</Link>
               </li>
               <li className="font-medium text-[#737373]  hover:text-yellow-600">
-                <Link to="">Tea table</Link>
+                <Link to="#">Tea table</Link>
               </li>
             </ul>
           </div>
@@ -279,25 +279,25 @@ const ShopPage = () => {
             {/*End product*/}
             <div className="mt-8">
               <Link
-                to=""
+                to="#"
                 className="mr-2 py-2 px-4 bg-yellow-600 inline-block text-white font-bold rounded-md"
               >
                 1
               </Link>
               <Link
-                to=""
+                to="#"
                 className="mr-2 py-2 px-4 bg-[#A3A3A3] inline-block text-white font-bold rounded-md"
               >
                 2
               </Link>
               <Link
-                to=""
+                to="#"
                 className="mr-2 py-2 px-4 bg-[#A3A3A3] inline-block text-white font-bold rounded-md"
               >
                 3
               </Link>
               <Link
-                to=""
+                to="#"
                 className="mr-2 py-2 px-4 bg-[#A3A3A3] inline-block text-white font-bold rounded-md"
               >
                 Next
